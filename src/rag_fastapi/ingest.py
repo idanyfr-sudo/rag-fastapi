@@ -1,10 +1,12 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from pypdf import PdfReader
-import ollama
-import base as db
+from sentence_transformers import SentenceTransformer
+from database import conn
+
 
 
 splitter = RecursiveCharacterTextSplitter(chunk_size=100, chunk_overlap=20)
+model = SentenceTransformer('all-MiniLM-L6-v2')
 
 
 def load_file(path: str) -> str:
@@ -24,13 +26,13 @@ def split_text(pages: str) -> list:
 
 
 def vector_text(chunks):
-    embeddings = ollama.embed(model ="snowflake-arctic-embed:22m", input = chunks)
-    return embeddings["embeddings"]
+    embeddings = model.encode(chunks)
+    return embeddings.tolist()
 
 
 def store_vectors(embeddings: list, chunks: list):
     
-    cur = db.conn.cursor()
+    cur = conn.cursor()
     counter = 0
 
     for value in embeddings:
@@ -39,22 +41,9 @@ def store_vectors(embeddings: list, chunks: list):
             (value, chunks[counter]),
         )
         counter += 1
-    db.conn.commit()
+    conn.commit()
     cur.close()
-    db.conn.close()
     return True
 
-def process_document(path: str):
-    file = load_file(path)
-
-    splits = split_text(file)
-
-    embeddings = vector_text(splits)
-
-    store_vectors(embeddings, splits)
-
-    print("Sucess")
 
 
-if __name__ == "__main__":
-    process_document("C:/Users/danyf/Documents/rag_project/mypdf.pdf")

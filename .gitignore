@@ -1,3 +1,16 @@
+# Virtual environment
 .venv/
-__pycache__/
+
+# Python compiled cache (matches anywhere in the project)
+**/__pycache__/
+*.pyc
+
+# Local configuration and secrets
 .env
+config.json
+
+# Local visual assets / charts
+imports.png
+
+#test
+test.py
