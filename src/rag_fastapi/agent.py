@@ -1,11 +1,22 @@
-from rag_fastapi.database import conn
-from rag_fastapi.ingest import load_file,vector_text,split_text,store_vectors
+from rag_fastapi.file import FileProcessor
 from openai import OpenAI
 from fastapi import FastAPI, UploadFile, HTTPException
 from pydantic import BaseModel
 
 client = OpenAI()
 app = FastAPI()
+encoder = FileProcessor()
+
+
+
+
+
+
+
+
+
+
+
 
 
 def similiar_search(question: str) -> str:
@@ -44,6 +55,7 @@ class Question(BaseModel):
 
 @app.post("/askme/")
 def main(question: Question):
+    
     retrieved_chunks = similiar_search(question.content)
     if not retrieved_chunks:
         return{"answer":"No relevant context found"}

@@ -6,6 +6,8 @@ This is a Retrieval-Augmented Generation pipeline built with fastapi. This appli
 
 # Installation & Setup
 
+---
+
 # 1.Set up Virtual Environment and set **OPENAI_API_KEY**.
 ```bash
 
@@ -18,7 +20,9 @@ source.venv/bin/activate
 ## Set OPENAI KEY.
 
 export OPENAI_API_KEY="YOUR_KEY"```
----
+
+
+
 
 ```PowerShell
 ## Create and activate virtual environment
@@ -38,7 +42,6 @@ $env:OPENAI_API_KEY="YOUR_KEY"```
 ```bash
 git clone https://github.com/idanyfr-sudo/rag-fastapi.git```
 
-
 ---
 #3.Set up your database:
 You need a PostgreSQL database with the pgvector extension enabled in order to store embeddings.
@@ -52,7 +55,7 @@ You need a PostgreSQL database with the pgvector extension enabled in order to s
 
 #4.Run the App
 ```bash
-fastapi dev src/rag_fastapi/main.py```
+fastapi dev src/rag_fastapi/main.py ```
 
 
 
